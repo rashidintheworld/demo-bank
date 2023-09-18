@@ -1,7 +1,6 @@
 package com.example.bankdemoproject.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -22,9 +20,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @ManyToOne
-    @JoinColumn(name = "dt_account_id")
-    Account dtAccount;
-    String crAccount;
+    @JoinColumn(name = "from_account_id")
+    Account fromAccount;
+    String toAccount;
     Double amount;
     Double commission;
     String currency;

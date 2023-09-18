@@ -27,7 +27,7 @@ public class Account {
     Integer branchCode;
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    Account customer;
+    Customer customer;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp
