@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReqCustomer {
+    Long id;
     String name;
     String surname;
     String pin;

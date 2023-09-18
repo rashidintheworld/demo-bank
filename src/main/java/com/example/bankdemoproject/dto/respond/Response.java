@@ -10,5 +10,6 @@ import lombok.experimental.FieldDefaults;
 public class Response<T>{
     @JsonProperty(value = "data")
     T t;
+    @JsonProperty(value = "status")
     RespStatus respStatus;
 }
