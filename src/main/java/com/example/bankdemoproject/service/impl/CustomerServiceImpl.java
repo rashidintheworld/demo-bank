@@ -61,24 +61,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Response addCustomer(ReqCustomer reqCustomer) {
         Response response = new Response();
-        Customer customer = customerMapper.dtoToCustomerEntity(reqCustomer);
-        if(customer == null){
+        if(reqCustomer == null){
             throw new ResourceNotFoundException(ExceptionConstants.CUSTOMER_NOT_FOUND, CUSTOMER_NOT_FOUND_MESSAGE);
         }
-        Customer createdCustomer = Customer.builder()
-                .name(reqCustomer.getName())
-                .surname(reqCustomer.getSurname())
-                .pin(reqCustomer.getPin())
-                .seria(reqCustomer.getSeria())
-                .dob(reqCustomer.getDob())
-                .phone(reqCustomer.getPhone())
-                .address(reqCustomer.getAddress())
-                .build();
-        customerRepository.save(createdCustomer);
+        Customer customer = customerMapper.dtoToCustomerEntity(reqCustomer);
+        customerRepository.save(customer);
         response.setRespStatus(RespStatus.getSuccesMessage());
         return response;
     }
-
     @Override
     public Response updateCustomer(ReqCustomer reqCustomer) {
         Response response = new Response();
