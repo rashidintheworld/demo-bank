@@ -2,18 +2,12 @@ package com.example.bankdemoproject.exception;
 
 import com.example.bankdemoproject.dto.respond.RespStatus;
 import com.example.bankdemoproject.dto.respond.Response;
-import jakarta.validation.ConstraintViolationException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GeneralExceptionHandler {
@@ -24,8 +18,8 @@ public class GeneralExceptionHandler {
         return response;
     }
 
-    @ExceptionHandler(CustomException.class)
-    public Response handleCustomException(CustomException customException) {
+    @ExceptionHandler(CustomBankException.class)
+    public Response handleCustomException(CustomBankException customException) {
         Response response = new Response();
         response.setRespStatus(new RespStatus(customException.getCode(), customException.getMessage()));
         return response;
