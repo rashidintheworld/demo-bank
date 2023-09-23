@@ -3,11 +3,10 @@ package com.example.bankdemoproject.service.impl;
 import com.example.bankdemoproject.dto.request.ReqCustomer;
 import com.example.bankdemoproject.dto.respond.RespCustomer;
 import com.example.bankdemoproject.dto.respond.RespStatus;
-import com.example.bankdemoproject.dto.respond.RespTransaction;
 import com.example.bankdemoproject.dto.respond.Response;
 import com.example.bankdemoproject.entity.Customer;
 import com.example.bankdemoproject.enums.EnumAvailableStatus;
-import com.example.bankdemoproject.exception.CustomException;
+import com.example.bankdemoproject.exception.CustomBankException;
 import com.example.bankdemoproject.exception.ExceptionConstants;
 import com.example.bankdemoproject.exception.ResourceNotFoundException;
 import com.example.bankdemoproject.mapper.CustomerMapper;
@@ -34,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
         Response<List<RespCustomer>> response = new Response<>();
         List<Customer> customerList = customerRepository.findAllByActive(EnumAvailableStatus.ACTIVE.value);
         if(customerList.isEmpty()){
-            throw new CustomException(ExceptionConstants.INVALID_REQUEST_DATA, LIST_MESSAGE);
+            throw new CustomBankException(ExceptionConstants.INVALID_REQUEST_DATA, LIST_MESSAGE);
         }
         List<RespCustomer> respCustomerList = customerList.stream().map(customerMapper::customerEntityToDto).collect(Collectors.toList());
         response.setT(respCustomerList);
@@ -46,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Response<RespCustomer> getCustomerById(Long id) {
         Response<RespCustomer> response = new Response<>();
         if(id==null){
-            throw new CustomException(ExceptionConstants.INVALID_REQUEST_DATA, ID_MESSAGE);
+            throw new CustomBankException(ExceptionConstants.INVALID_REQUEST_DATA, ID_MESSAGE);
         }
         Customer customer = customerRepository.findCustomerByIdAndActive(id,EnumAvailableStatus.ACTIVE.value);
         if(customer==null){
@@ -94,7 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Response deleteCustomer(Long id) {
         Response response = new Response();
         if(id==null){
-            throw new CustomException(ExceptionConstants.INVALID_REQUEST_DATA, ID_MESSAGE);
+            throw new CustomBankException(ExceptionConstants.INVALID_REQUEST_DATA, ID_MESSAGE);
         }
         Customer customer = customerRepository.findCustomerByIdAndActive(id,EnumAvailableStatus.ACTIVE.value);
         if(customer==null){

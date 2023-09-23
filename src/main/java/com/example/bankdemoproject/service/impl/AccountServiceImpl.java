@@ -7,7 +7,7 @@ import com.example.bankdemoproject.dto.respond.Response;
 import com.example.bankdemoproject.entity.Account;
 import com.example.bankdemoproject.entity.Customer;
 import com.example.bankdemoproject.enums.EnumAvailableStatus;
-import com.example.bankdemoproject.exception.CustomException;
+import com.example.bankdemoproject.exception.CustomBankException;
 import com.example.bankdemoproject.exception.ExceptionConstants;
 import com.example.bankdemoproject.exception.ResourceNotFoundException;
 import com.example.bankdemoproject.mapper.AccountMapper;
@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     public Response<List<RespAccount>> getAccountListByCustomerId(Long customerId) {
         Response response = new Response();
         if(customerId==null){
-            throw new CustomException(ExceptionConstants.INVALID_REQUEST_DATA,ID_MESSAGE);
+            throw new CustomBankException(ExceptionConstants.INVALID_REQUEST_DATA,ID_MESSAGE);
         }
         Customer customer = customerRepository.findCustomerByIdAndActive(customerId, EnumAvailableStatus.ACTIVE.value);
         if(customer == null){
@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
         }
         List<Account> accountList = accountRepository.findAllByCustomerAndActive(customer,EnumAvailableStatus.ACTIVE.value);
         if(accountList.isEmpty()){
-            throw new CustomException(ExceptionConstants.INVALID_REQUEST_DATA,LIST_MESSAGE);
+            throw new CustomBankException(ExceptionConstants.INVALID_REQUEST_DATA,LIST_MESSAGE);
         }
         List<RespAccount> respAccountList = accountList.stream().map(accountMapper::respAccountToEntity).collect(Collectors.toList());
         response.setT(respAccountList);

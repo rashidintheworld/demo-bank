@@ -1,15 +1,13 @@
 package com.example.bankdemoproject.service.impl;
 
 import com.example.bankdemoproject.dto.request.ReqTransaction;
-import com.example.bankdemoproject.dto.respond.RespAccount;
 import com.example.bankdemoproject.dto.respond.RespStatus;
 import com.example.bankdemoproject.dto.respond.RespTransaction;
 import com.example.bankdemoproject.dto.respond.Response;
 import com.example.bankdemoproject.entity.Account;
-import com.example.bankdemoproject.entity.Customer;
 import com.example.bankdemoproject.entity.Transaction;
 import com.example.bankdemoproject.enums.EnumAvailableStatus;
-import com.example.bankdemoproject.exception.CustomException;
+import com.example.bankdemoproject.exception.CustomBankException;
 import com.example.bankdemoproject.exception.ExceptionConstants;
 import com.example.bankdemoproject.exception.ResourceNotFoundException;
 import com.example.bankdemoproject.mapper.TransactionMapper;
@@ -17,7 +15,6 @@ import com.example.bankdemoproject.repository.AccountRepository;
 import com.example.bankdemoproject.repository.TransactionRepository;
 import com.example.bankdemoproject.service.TransactionService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.id.enhanced.AccessCallback;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
     public Response<List<RespTransaction>> getTransactionList(Long accountId) {
         Response<List<RespTransaction>> response = new Response<>();
         if(accountId==null){
-            throw new CustomException(ExceptionConstants.INVALID_REQUEST_DATA,ID_MESSAGE);
+            throw new CustomBankException(ExceptionConstants.INVALID_REQUEST_DATA,ID_MESSAGE);
         }
         Account account = accountRepository.findAccountByIdAndActive(accountId, EnumAvailableStatus.ACTIVE.value);
         if(account==null){
@@ -48,7 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         List<Transaction> transactionList = transactionRepository.findAllByFromAccountAndActive(account,EnumAvailableStatus.ACTIVE.value);
         if(transactionList.isEmpty()){
-            throw new CustomException(ExceptionConstants.INVALID_REQUEST_DATA,LIST_MESSAGE);
+            throw new CustomBankException(ExceptionConstants.INVALID_REQUEST_DATA,LIST_MESSAGE);
         }
         List<RespTransaction> respTransactionList = transactionList.stream().map(transactionMapper::respTransactionToEntity).collect(Collectors.toList());
         response.setT(respTransactionList);
