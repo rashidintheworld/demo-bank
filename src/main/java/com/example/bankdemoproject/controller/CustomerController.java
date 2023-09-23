@@ -4,7 +4,9 @@ package com.example.bankdemoproject.controller;
 import com.example.bankdemoproject.dto.request.ReqCustomer;
 import com.example.bankdemoproject.dto.respond.RespCustomer;
 import com.example.bankdemoproject.dto.respond.Response;
+import com.example.bankdemoproject.entity.Customer;
 import com.example.bankdemoproject.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Response addCustomer(@RequestBody ReqCustomer reqCustomer) {
+    public Response addCustomer(@RequestBody @Valid ReqCustomer reqCustomer) {
         return customerService.addCustomer(reqCustomer);
     }
 
